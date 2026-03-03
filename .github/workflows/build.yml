@@ -3,6 +3,8 @@ name: build-apk
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -22,7 +24,7 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Build Debug APK
-        run: ./gradlew :app:assembleDebug
+        run: ./gradlew :app:assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
