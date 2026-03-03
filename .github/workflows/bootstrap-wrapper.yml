@@ -1,0 +1,31 @@
+name: bootstrap-wrapper
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install Gradle
+        run: sudo apt-get install gradle -y
+
+      - name: Generate Wrapper
+        run: gradle wrapper --gradle-version 8.4
+
+      - name: Commit wrapper
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add gradlew gradlew.bat gradle
+          git commit -m "Add Gradle Wrapper"
+          git push
